@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { insertInGrid } from '../grid'
+import { insertInGrid, moveGrid } from '../grid'
 
 interface gridProps {
     grid: number[][]
@@ -19,6 +19,8 @@ function Grid(props: gridProps) {
         }
     })
 
+    type direction = 'RIGHT' | 'LEFT' | 'UP' | 'DOWN'
+
     const keyDownHandler = (e: KeyboardEvent) => {
         const supportedKeys = [
             'ArrowDown',
@@ -26,12 +28,21 @@ function Grid(props: gridProps) {
             'ArrowLeft',
             'ArrowRight',
         ]
+        const directionByKey: {
+            [eventCode: string]: direction
+        } = {
+            ArrowDown: 'DOWN',
+            ArrowUp: 'UP',
+            ArrowLeft: 'LEFT',
+            ArrowRight: 'RIGHT',
+        }
         const isSupported = supportedKeys.some(
             supportedKey => supportedKey === e.code
         )
         if (isSupported) {
             // console.log(e.code)
             onKeyPress(insertInGrid(grid, 2))
+            onKeyPress(moveGrid(grid, directionByKey[e.code]))
             e.preventDefault()
         }
     }
