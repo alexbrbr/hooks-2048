@@ -5,6 +5,7 @@ import {
     moveRowRight,
     moveRowLeft,
     moveGrid,
+    rotateMatrix,
 } from './grid'
 
 describe('getRandomTile', () => {
@@ -105,5 +106,65 @@ describe('moveGrid', () => {
         expect(
             moveGrid([[1, 0, 0, 0], [0, 2, 0, 0]], 'RIGHT')
         ).toEqual([[0, 0, 0, 1], [0, 0, 0, 2]])
+    })
+    test('should move a bottom-located number to the top', () => {
+        expect(
+            moveGrid(
+                [
+                    [1, 0, 0, 0],
+                    [0, 2, 0, 0],
+                    [0, 0, 0, 0],
+                    [0, 0, 0, 0],
+                ],
+                'UP'
+            )
+        ).toEqual([
+            [1, 2, 0, 0],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+        ])
+    })
+    test('should move a top-located number to the bottom', () => {
+        expect(
+            moveGrid(
+                [
+                    [1, 0, 0, 0],
+                    [0, 2, 0, 0],
+                    [0, 0, 0, 3],
+                    [0, 0, 5, 0],
+                ],
+                'DOWN'
+            )
+        ).toEqual([
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+            [1, 2, 5, 3],
+        ])
+    })
+})
+
+describe('rotateMatrix', () => {
+    test('should return a rotated 2*2 matrix ', () => {
+        expect(rotateMatrix([[0, 0], [1, 2]])).toEqual([
+            [1, 0],
+            [2, 0],
+        ])
+    })
+    test('should return a rotated 4*4 matrix', () => {
+        expect(
+            rotateMatrix([
+                [0, 0, 0, 0],
+                [1, 1, 1, 1],
+                [2, 2, 2, 2],
+                [3, 3, 3, 3],
+            ])
+        ).toEqual([
+            [3, 2, 1, 0],
+            [3, 2, 1, 0],
+            [3, 2, 1, 0],
+            [3, 2, 1, 0],
+        ])
     })
 })

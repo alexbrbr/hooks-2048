@@ -76,15 +76,50 @@ export const moveRowLeft = (row: number[]): number[] => {
     return moveRowRight(row.reverse()).reverse()
 }
 
-type direction = 'RIGHT' | 'LEFT'
+export const rotateMatrix = (grid: number[][]): number[][] => {
+    const rotatedGrid: number[][] = []
+    rotatedGrid.length = grid.length
+
+    for (let x = 0; x < grid.length; x++) {
+        for (let y = 0; y < grid.length; y++) {
+            var newX = grid.length - y - 1
+            var newY = x
+
+            if (!rotatedGrid[x]) {
+                rotatedGrid[x] = []
+            }
+            rotatedGrid[x][y] = grid[newX][newY]
+        }
+    }
+    return rotatedGrid
+}
+type direction = 'RIGHT' | 'LEFT' | 'UP' | 'DOWN'
 
 export const moveGrid = (
     grid: number[][],
     direction: direction
 ): number[][] => {
+    const needsRotation =
+        direction === 'UP' || direction === 'DOWN'
+
+    if (needsRotation) {
+        grid = rotateMatrix(grid)
+    }
     const mappingFunctionByDirection = {
         RIGHT: moveRowRight,
         LEFT: moveRowLeft,
+        UP: moveRowRight,
+        DOWN: moveRowLeft,
     }
-    return grid.map(mappingFunctionByDirection[direction])
+    return needsRotation
+        ? rotateMatrix(
+              rotateMatrix(
+                  rotateMatrix(
+                      grid.map(
+                          mappingFunctionByDirection[direction]
+                      )
+                  )
+              )
+          )
+        : grid.map(mappingFunctionByDirection[direction])
 }
