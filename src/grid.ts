@@ -75,3 +75,16 @@ export const moveRowRight = (row: number[]): number[] => {
 export const moveRowLeft = (row: number[]): number[] => {
     return moveRowRight(row.reverse()).reverse()
 }
+
+type direction = 'RIGHT' | 'LEFT'
+
+export const moveGrid = (
+    grid: number[][],
+    direction: direction
+): number[][] => {
+    const mappingFunctionByDirection = {
+        RIGHT: moveRowRight,
+        LEFT: moveRowLeft,
+    }
+    return grid.map(mappingFunctionByDirection[direction])
+}

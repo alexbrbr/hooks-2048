@@ -4,6 +4,7 @@ import {
     insertInGrid,
     moveRowRight,
     moveRowLeft,
+    moveGrid,
 } from './grid'
 
 describe('getRandomTile', () => {
@@ -91,5 +92,18 @@ describe('moveRowLeft', () => {
     })
     test('should merge two right-located number to the left', () => {
         expect(moveRowLeft([0, 2, 0, 2])).toEqual([4, 0, 0, 0])
+    })
+})
+
+describe('moveGrid', () => {
+    test('should return an empty row without changing it', () => {
+        expect(
+            moveGrid([[0, 0, 0, 0], [0, 0, 0, 0]], 'LEFT')
+        ).toEqual([[0, 0, 0, 0], [0, 0, 0, 0]])
+    })
+    test('should move a left-located number to the right', () => {
+        expect(
+            moveGrid([[1, 0, 0, 0], [0, 2, 0, 0]], 'RIGHT')
+        ).toEqual([[0, 0, 0, 1], [0, 0, 0, 2]])
     })
 })
