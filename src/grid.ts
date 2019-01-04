@@ -58,3 +58,20 @@ export const insertInGrid = (
     grid[y][x] = value
     return grid
 }
+
+export const moveRowRight = (row: number[]): number[] => {
+    return row.reduce((rightRow, number, index) => {
+        if (rightRow[index + 1] === 0) {
+            rightRow[index + 1] = rightRow[index]
+            rightRow[index] = 0
+        } else if (rightRow[index + 1] === rightRow[index]) {
+            rightRow[index + 1] = rightRow[index] * 2
+            rightRow[index] = 0
+        }
+        return rightRow
+    }, row)
+}
+
+export const moveRowLeft = (row: number[]): number[] => {
+    return moveRowRight(row.reverse()).reverse()
+}
