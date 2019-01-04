@@ -1,15 +1,11 @@
-import React from "react";
+import React from 'react'
 
 interface scoreProps {
-    score: number;
+    score: number
 }
-function Score(props:scoreProps) {
-  const {score} = props;
-  return (
-    <div>
-      Your score is {score}
-    </div>
-  );
-  }
+function Score(props: scoreProps) {
+    const { score } = props
+    return <div>Your score is {score}</div>
+}
 
-export default Score;
+export default Score
