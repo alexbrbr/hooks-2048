@@ -5,11 +5,11 @@ import Grid from './components/Grid'
 import { defaultGrid } from './grid'
 function App() {
     const [score, setScore] = useState(0)
-    const [grid, setGrid] = useState(defaultGrid)
+    const [grid, setGrid] = useState<number[][]>(defaultGrid)
     return (
         <div>
             <Score score={score} />
-            <Grid grid={grid} />
+            <Grid grid={grid} onKeyPress={setGrid} />
         </div>
     )
 }
