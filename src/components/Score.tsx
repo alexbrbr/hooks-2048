@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import "./App.css";
+import React from "react";
 
 interface scoreProps {
     score: number;
