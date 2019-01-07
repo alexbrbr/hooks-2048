@@ -1,3 +1,5 @@
+This project is an implementation of the [2048 game](https://play2048.co/). It has been implemented to try using [React Hooks](https://reactjs.org/docs/hooks-intro.html) with TypeScript.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
