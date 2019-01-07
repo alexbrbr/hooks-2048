@@ -176,6 +176,11 @@ describe('moveGrid', () => {
             [1, 2, 5, 3],
         ])
     })
+    test('should not merge twice', () => {
+        expect(moveGrid([[2, 2, 4, 0]], 'RIGHT').rows).toEqual([
+            [0, 0, 4, 4],
+        ])
+    })
     test('should return the same matrix when full', () => {
         expect(
             moveGrid(

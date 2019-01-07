@@ -67,15 +67,19 @@ interface rowAndScore {
 }
 
 export const moveRowRight = (row: number[]): rowAndScore => {
-    return row.reduce(
+    const added = row.reduce(
         (rightRow, _, index) => {
+            console.log(rightRow.row)
             if (rightRow.row[index + 1] === 0) {
                 rightRow.row[index + 1] = rightRow.row[index]
                 rightRow.row[index] = 0
             } else if (
-                rightRow.row[index + 1] === rightRow.row[index]
+                rightRow.row[index + 1] ===
+                    rightRow.row[index] &&
+                rightRow.lastMergeIndex !== index - 1
             ) {
                 rightRow.score += rightRow.row[index]
+                rightRow.lastMergeIndex = index
                 rightRow.row[index + 1] = rightRow.row[index] * 2
                 rightRow.row[index] = 0
             }
@@ -84,8 +88,22 @@ export const moveRowRight = (row: number[]): rowAndScore => {
         {
             row,
             score: 0,
+            lastMergeIndex: -Infinity,
         }
     )
+
+    added.row = added.row.reduceRight(
+        (result: number[], number, index) => {
+            if (number === 0 && result[index - 1] > 0) {
+                result[index] = result[index - 1]
+                result[index - 1] = 0
+            }
+            return result
+        },
+        added.row
+    )
+
+    return added
 }
 
 export const moveRowLeft = (row: number[]): rowAndScore => {
