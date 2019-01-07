@@ -99,11 +99,12 @@ export const moveGrid = (
     grid: number[][],
     direction: direction
 ): number[][] => {
+    let newGrid = JSON.parse(JSON.stringify(grid))
     const needsRotation =
         direction === 'UP' || direction === 'DOWN'
 
     if (needsRotation) {
-        grid = rotateMatrix(grid)
+        newGrid = rotateMatrix(newGrid)
     }
     const mappingFunctionByDirection = {
         RIGHT: moveRowRight,
@@ -115,11 +116,11 @@ export const moveGrid = (
         ? rotateMatrix(
               rotateMatrix(
                   rotateMatrix(
-                      grid.map(
+                      newGrid.map(
                           mappingFunctionByDirection[direction]
                       )
                   )
               )
           )
-        : grid.map(mappingFunctionByDirection[direction])
+        : newGrid.map(mappingFunctionByDirection[direction])
 }

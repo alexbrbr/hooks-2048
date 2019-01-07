@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
-import { insertInGrid, moveGrid } from '../grid'
+
+type direction = 'RIGHT' | 'LEFT' | 'UP' | 'DOWN'
 
 interface gridProps {
     grid: number[][]
-    onKeyPress: any
+    onKeyPress(d: direction): void
 }
 
 function Grid(props: gridProps) {
@@ -18,8 +19,6 @@ function Grid(props: gridProps) {
             )
         }
     })
-
-    type direction = 'RIGHT' | 'LEFT' | 'UP' | 'DOWN'
 
     const keyDownHandler = (e: KeyboardEvent) => {
         const supportedKeys = [
@@ -41,8 +40,7 @@ function Grid(props: gridProps) {
         )
         if (isSupported) {
             // console.log(e.code)
-            onKeyPress(insertInGrid(grid, 2))
-            onKeyPress(moveGrid(grid, directionByKey[e.code]))
+            onKeyPress(directionByKey[e.code])
             e.preventDefault()
         }
     }
