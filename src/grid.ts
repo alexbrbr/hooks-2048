@@ -1,3 +1,5 @@
+import { createSecureContext } from 'tls'
+
 export const defaultGrid = [
     [0, 0, 0, 0],
     [0, 0, 0, 0],
@@ -59,21 +61,39 @@ export const insertInGrid = (
     return grid
 }
 
-export const moveRowRight = (row: number[]): number[] => {
-    return row.reduce((rightRow, number, index) => {
-        if (rightRow[index + 1] === 0) {
-            rightRow[index + 1] = rightRow[index]
-            rightRow[index] = 0
-        } else if (rightRow[index + 1] === rightRow[index]) {
-            rightRow[index + 1] = rightRow[index] * 2
-            rightRow[index] = 0
-        }
-        return rightRow
-    }, row)
+interface rowAndScore {
+    row: number[]
+    score: number
 }
 
-export const moveRowLeft = (row: number[]): number[] => {
-    return moveRowRight(row.reverse()).reverse()
+export const moveRowRight = (row: number[]): rowAndScore => {
+    return row.reduce(
+        (rightRow, _, index) => {
+            if (rightRow.row[index + 1] === 0) {
+                rightRow.row[index + 1] = rightRow.row[index]
+                rightRow.row[index] = 0
+            } else if (
+                rightRow.row[index + 1] === rightRow.row[index]
+            ) {
+                rightRow.score += rightRow.row[index]
+                rightRow.row[index + 1] = rightRow.row[index] * 2
+                rightRow.row[index] = 0
+            }
+            return rightRow
+        },
+        {
+            row,
+            score: 0,
+        }
+    )
+}
+
+export const moveRowLeft = (row: number[]): rowAndScore => {
+    const result = moveRowRight(row.reverse())
+    return {
+        row: result.row.reverse(),
+        score: result.score,
+    }
 }
 
 export const rotateMatrix = (grid: number[][]): number[][] => {
@@ -95,10 +115,14 @@ export const rotateMatrix = (grid: number[][]): number[][] => {
 }
 type direction = 'RIGHT' | 'LEFT' | 'UP' | 'DOWN'
 
+interface rowsAndScore {
+    rows: number[][]
+    score: number
+}
 export const moveGrid = (
     grid: number[][],
     direction: direction
-): number[][] => {
+): rowsAndScore => {
     let newGrid = JSON.parse(JSON.stringify(grid))
     const needsRotation =
         direction === 'UP' || direction === 'DOWN'
@@ -112,15 +136,26 @@ export const moveGrid = (
         UP: moveRowRight,
         DOWN: moveRowLeft,
     }
-    return needsRotation
-        ? rotateMatrix(
-              rotateMatrix(
-                  rotateMatrix(
-                      newGrid.map(
-                          mappingFunctionByDirection[direction]
-                      )
-                  )
-              )
-          )
-        : newGrid.map(mappingFunctionByDirection[direction])
+    const rowsAndScore: rowAndScore[] = newGrid.map(
+        mappingFunctionByDirection[direction]
+    )
+    const result = rowsAndScore.reduce(
+        (result: rowsAndScore, current: rowAndScore) => {
+            result.score += current.score
+            result.rows.push(current.row)
+            return result
+        },
+        {
+            score: 0,
+            rows: [],
+        }
+    )
+
+    if (needsRotation) {
+        result.rows = rotateMatrix(
+            rotateMatrix(rotateMatrix(result.rows))
+        )
+    }
+
+    return result
 }

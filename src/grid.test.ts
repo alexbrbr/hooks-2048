@@ -74,37 +74,70 @@ describe('getTileCoordinatesFromFlatIndex', () => {
 
 describe('moveRowRight', () => {
     test('should return an empty row without changing it', () => {
-        expect(moveRowRight([0, 0, 0, 0])).toEqual([0, 0, 0, 0])
+        expect(moveRowRight([0, 0, 0, 0]).row).toEqual([
+            0,
+            0,
+            0,
+            0,
+        ])
     })
     test('should move a left-located number to the right', () => {
-        expect(moveRowRight([1, 0, 0, 0])).toEqual([0, 0, 0, 1])
+        expect(moveRowRight([1, 0, 0, 0]).row).toEqual([
+            0,
+            0,
+            0,
+            1,
+        ])
     })
     test('should merge two left-located number to the right', () => {
-        expect(moveRowRight([2, 2, 0, 0])).toEqual([0, 0, 0, 4])
+        expect(moveRowRight([2, 2, 0, 0]).row).toEqual([
+            0,
+            0,
+            0,
+            4,
+        ])
     })
 })
 
 describe('moveRowLeft', () => {
     test('should return an empty row without changing it', () => {
-        expect(moveRowLeft([0, 0, 0, 0])).toEqual([0, 0, 0, 0])
+        expect(moveRowLeft([0, 0, 0, 0]).row).toEqual([
+            0,
+            0,
+            0,
+            0,
+        ])
     })
     test('should move a right-located number to the left', () => {
-        expect(moveRowLeft([0, 0, 0, 1])).toEqual([1, 0, 0, 0])
+        expect(moveRowLeft([0, 0, 0, 1]).row).toEqual([
+            1,
+            0,
+            0,
+            0,
+        ])
     })
     test('should merge two right-located number to the left', () => {
-        expect(moveRowLeft([0, 2, 0, 2])).toEqual([4, 0, 0, 0])
+        expect(moveRowLeft([0, 2, 0, 2]).row).toEqual([
+            4,
+            0,
+            0,
+            0,
+        ])
+    })
+    test('should add score', () => {
+        expect(moveRowLeft([0, 2, 0, 2]).score).toEqual(2)
     })
 })
 
 describe('moveGrid', () => {
     test('should return an empty row without changing it', () => {
         expect(
-            moveGrid([[0, 0, 0, 0], [0, 0, 0, 0]], 'LEFT')
+            moveGrid([[0, 0, 0, 0], [0, 0, 0, 0]], 'LEFT').rows
         ).toEqual([[0, 0, 0, 0], [0, 0, 0, 0]])
     })
     test('should move a left-located number to the right', () => {
         expect(
-            moveGrid([[1, 0, 0, 0], [0, 2, 0, 0]], 'RIGHT')
+            moveGrid([[1, 0, 0, 0], [0, 2, 0, 0]], 'RIGHT').rows
         ).toEqual([[0, 0, 0, 1], [0, 0, 0, 2]])
     })
     test('should move a bottom-located number to the top', () => {
@@ -117,7 +150,7 @@ describe('moveGrid', () => {
                     [0, 0, 0, 0],
                 ],
                 'UP'
-            )
+            ).rows
         ).toEqual([
             [1, 2, 0, 0],
             [0, 0, 0, 0],
@@ -135,7 +168,7 @@ describe('moveGrid', () => {
                     [0, 0, 5, 0],
                 ],
                 'DOWN'
-            )
+            ).rows
         ).toEqual([
             [0, 0, 0, 0],
             [0, 0, 0, 0],
@@ -153,7 +186,7 @@ describe('moveGrid', () => {
                     [13, 14, 15, 16],
                 ],
                 'DOWN'
-            )
+            ).rows
         ).toEqual([
             [1, 2, 3, 4],
             [5, 6, 7, 8],

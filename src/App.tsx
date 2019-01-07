@@ -11,7 +11,10 @@ function App() {
     const [grid, setGrid] = useState<number[][]>(defaultGrid)
 
     const onKeyPress = (direction: direction) => {
-        const gridAfterMove = moveGrid(grid, direction)
+        const {
+            score: scoreToAdd,
+            rows: gridAfterMove,
+        } = moveGrid(grid, direction)
         if (
             gridAfterMove.every(line =>
                 line.every(number => number !== 0)
@@ -21,6 +24,7 @@ function App() {
             setGrid(defaultGrid)
             return
         }
+        setScore(score + scoreToAdd)
         const hasChanged =
             JSON.stringify(gridAfterMove) !==
             JSON.stringify(grid)
