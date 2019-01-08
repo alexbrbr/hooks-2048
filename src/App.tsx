@@ -12,6 +12,7 @@ import {
 function App() {
     const [score, setScore] = useState(0)
     const [grid, setGrid] = useState<number[][]>(defaultGrid)
+    const [hasWon, setHasWon] = useState(false)
 
     const onKeyPress = (direction: direction) => {
         const {
@@ -27,6 +28,23 @@ function App() {
             setGrid(defaultGrid)
             return
         }
+        if (
+            !hasWon &&
+            gridAfterMove.some(line =>
+                line.some(number => number === 2048)
+            )
+        ) {
+            alert('you won')
+            setHasWon(true)
+            if (
+                !window.confirm(
+                    'Do you want to continue to play ?'
+                )
+            ) {
+                setGrid(defaultGrid)
+            }
+        }
+
         setScore(score + scoreToAdd)
         const hasChanged =
             JSON.stringify(gridAfterMove) !==
