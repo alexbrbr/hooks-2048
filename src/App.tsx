@@ -13,7 +13,13 @@ function App() {
     const [score, setScore] = useState(0)
     const [grid, setGrid] = useState<number[][]>(defaultGrid)
     const [hasWon, setHasWon] = useState(false)
+    const [userName, setUserName] = useState('')
 
+    function handleChange(
+        e: React.ChangeEvent<HTMLInputElement>
+    ) {
+        setUserName(e.target.value)
+    }
     const onKeyPress = (direction: direction) => {
         const {
             score: scoreToAdd,
@@ -57,7 +63,14 @@ function App() {
     return (
         <div className="game">
             <Grid grid={grid} onKeyPress={onKeyPress} />
-            <Score score={score} />
+            <div className="score-board">
+                <input
+                    type="text"
+                    value={userName}
+                    onChange={handleChange}
+                />
+                <Score score={score} userName={userName} />
+            </div>
         </div>
     )
 }

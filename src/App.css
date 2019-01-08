@@ -7,3 +7,11 @@
     align-items: center;
     justify-content: center;
 }
+
+.score-board {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 10px;
+}
