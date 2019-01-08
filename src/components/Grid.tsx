@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
-
-type direction = 'RIGHT' | 'LEFT' | 'UP' | 'DOWN'
+import { direction } from '../grid'
 
 interface gridProps {
     grid: number[][]
@@ -39,7 +38,6 @@ function Grid(props: gridProps) {
             supportedKey => supportedKey === e.code
         )
         if (isSupported) {
-            // console.log(e.code)
             onKeyPress(directionByKey[e.code])
             e.preventDefault()
         }

@@ -2,9 +2,12 @@ import React, { useState } from 'react'
 import './App.css'
 import Score from './components/Score'
 import Grid from './components/Grid'
-import { defaultGrid, insertInGrid, moveGrid } from './grid'
-
-type direction = 'RIGHT' | 'LEFT' | 'UP' | 'DOWN'
+import {
+    defaultGrid,
+    insertInGrid,
+    moveGrid,
+    direction,
+} from './grid'
 
 function App() {
     const [score, setScore] = useState(0)

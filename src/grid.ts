@@ -69,7 +69,6 @@ interface rowAndScore {
 export const moveRowRight = (row: number[]): rowAndScore => {
     const added = row.reduce(
         (rightRow, _, index) => {
-            console.log(rightRow.row)
             if (rightRow.row[index + 1] === 0) {
                 rightRow.row[index + 1] = rightRow.row[index]
                 rightRow.row[index] = 0
@@ -131,7 +130,8 @@ export const rotateMatrix = (grid: number[][]): number[][] => {
     }
     return rotatedGrid
 }
-type direction = 'RIGHT' | 'LEFT' | 'UP' | 'DOWN'
+
+export type direction = 'RIGHT' | 'LEFT' | 'UP' | 'DOWN'
 
 interface rowsAndScore {
     rows: number[][]
