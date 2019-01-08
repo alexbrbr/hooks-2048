@@ -66,21 +66,47 @@ interface rowAndScore {
     score: number
 }
 
-export const moveRowRight = (row: number[]): rowAndScore => {
+function moveZerosLeft(row: number[]): number[] {
+    return row.reduceRight((result: number[], _, index) => {
+        if (result[index + 1] > 0 && result[index] === 0) {
+            result[index] = result[index + 1]
+            result[index + 1] = 0
+        }
+        return result
+    }, row)
+}
+export const moveRowLeft = (row: number[]): rowAndScore => {
+    row = moveZerosLeft(row)
+    row = moveZerosLeft(row)
+    row = moveZerosLeft(row)
+
     const added = row.reduce(
         (rightRow, _, index) => {
-            if (rightRow.row[index + 1] === 0) {
-                rightRow.row[index + 1] = rightRow.row[index]
-                rightRow.row[index] = 0
-            } else if (
+            if (
                 rightRow.row[index + 1] ===
                     rightRow.row[index] &&
-                rightRow.lastMergeIndex !== index - 1
+                rightRow.lastMergeIndex !== index
             ) {
                 rightRow.score += rightRow.row[index]
                 rightRow.lastMergeIndex = index
-                rightRow.row[index + 1] = rightRow.row[index] * 2
-                rightRow.row[index] = 0
+                rightRow.row[index] = rightRow.row[index + 1] * 2
+                rightRow.row[index + 1] = 0
+            } else if (
+                rightRow.row[index + 2] &&
+                rightRow.row[index + 1] ===
+                    rightRow.row[index + 2] &&
+                rightRow.lastMergeIndex !== index
+            ) {
+                rightRow.score += rightRow.row[index]
+                rightRow.row[index + 1] =
+                    rightRow.row[index + 2] * 2
+                rightRow.row[index + 2] = 0
+            } else if (
+                rightRow.row[index + 1] > 0 &&
+                rightRow.row[index] === 0
+            ) {
+                rightRow.row[index] = rightRow.row[index + 1]
+                rightRow.row[index + 1] = 0
             }
             return rightRow
         },
@@ -91,22 +117,13 @@ export const moveRowRight = (row: number[]): rowAndScore => {
         }
     )
 
-    added.row = added.row.reduceRight(
-        (result: number[], number, index) => {
-            if (number === 0 && result[index - 1] > 0) {
-                result[index] = result[index - 1]
-                result[index - 1] = 0
-            }
-            return result
-        },
-        added.row
-    )
+    added.row = moveZerosLeft(added.row)
 
     return added
 }
 
-export const moveRowLeft = (row: number[]): rowAndScore => {
-    const result = moveRowRight(row.reverse())
+export const moveRowRight = (row: number[]): rowAndScore => {
+    const result = moveRowLeft(row.reverse())
     return {
         row: result.row.reverse(),
         score: result.score,

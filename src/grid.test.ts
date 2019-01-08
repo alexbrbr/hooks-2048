@@ -135,10 +135,30 @@ describe('moveGrid', () => {
             moveGrid([[0, 0, 0, 0], [0, 0, 0, 0]], 'LEFT').rows
         ).toEqual([[0, 0, 0, 0], [0, 0, 0, 0]])
     })
-    test('should move a left-located number to the right', () => {
+    test('should move a left-located  in the grid to the right', () => {
         expect(
             moveGrid([[1, 0, 0, 0], [0, 2, 0, 0]], 'RIGHT').rows
         ).toEqual([[0, 0, 0, 1], [0, 0, 0, 2]])
+    })
+    test('should merge twice if 4 values are identical - RIGHT', () => {
+        expect(
+            moveGrid([[2, 2, 2, 2], [0, 2, 0, 0]], 'RIGHT').rows
+        ).toEqual([[0, 0, 4, 4], [0, 0, 0, 2]])
+    })
+    test('should merge twice if 4 values are identical - LEFT', () => {
+        expect(
+            moveGrid([[2, 2, 2, 2], [0, 2, 0, 0]], 'LEFT').rows
+        ).toEqual([[4, 4, 0, 0], [2, 0, 0, 0]])
+    })
+    test('should merge the right values if 3 values are identical - RIGHT', () => {
+        expect(
+            moveGrid([[2, 2, 2, 0], [0, 2, 0, 0]], 'RIGHT').rows
+        ).toEqual([[0, 0, 2, 4], [0, 0, 0, 2]])
+    })
+    test('should merge the right values if 3 values are identical - LEFT', () => {
+        expect(
+            moveGrid([[2, 2, 2, 0], [0, 2, 0, 0]], 'LEFT').rows
+        ).toEqual([[4, 2, 0, 0], [2, 0, 0, 0]])
     })
     test('should move a bottom-located number to the top', () => {
         expect(
