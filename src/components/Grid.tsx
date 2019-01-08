@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { direction } from '../grid'
+import './Grid.css'
 
 interface gridProps {
     grid: number[][]
@@ -44,11 +45,12 @@ function Grid(props: gridProps) {
     }
 
     return (
-        <div>
+        <div className="grid">
             {grid.map((line, index) => (
-                <div key={'line' + index}>
+                <div className="line" key={'line' + index}>
                     {line.map((cell, cellIndex) => (
-                        <span
+                        <div
+                            className={`cell cell-${cell}`}
                             key={
                                 'line' +
                                 index +
@@ -56,8 +58,8 @@ function Grid(props: gridProps) {
                                 cellIndex
                             }
                         >
-                            {cell}
-                        </span>
+                            {cell > 0 && cell}
+                        </div>
                     ))}
                 </div>
             ))}

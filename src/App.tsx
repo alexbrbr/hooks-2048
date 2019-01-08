@@ -37,9 +37,9 @@ function App() {
         }
     }
     return (
-        <div>
-            <Score score={score} />
+        <div className="game">
             <Grid grid={grid} onKeyPress={onKeyPress} />
+            <Score score={score} />
         </div>
     )
 }
